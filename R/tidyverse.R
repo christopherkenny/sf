@@ -6,13 +6,17 @@
 #' @name tidyverse
 dplyr_col_modify.sf <- function(data, cols){
 	x <- NextMethod()
-	dplyr::dplyr_reconstruct(x, data)
+	sf_column_name = attr(data, "sf_column")
+	class(data) <- setdiff(class(data), "sf")
+	st_as_sf(dplyr::dplyr_reconstruct(x, data), sf_column_name = sf_column_name)
 }
 
 #' @name tidyverse
 dplyr_row_slice.sf <- function(data, i, ...){
-	x <- NextMethod()	
-	dplyr::dplyr_reconstruct(x, data)
+	x <- NextMethod()
+	sf_column_name = attr(data, "sf_column")
+	class(data) <- setdiff(class(data), "sf")
+	st_as_sf(dplyr::dplyr_reconstruct(x, data), sf_column_name = sf_column_name)
 }
 
 # This is currently only used in `bind_rows()` and `bind_cols()`
