@@ -9,6 +9,16 @@ test_that("select works", {
   expect_true(nc %>% select(AREA) %>% inherits("sf"))
 })
 
+test_that("rowwise_df class is retained on row slice", {
+	skip_if_not_installed("dplyr")
+	expect_true(nc %>% rowwise() %>% slice(1) %>% inherits("rowwise_df"))
+})
+
+test_that("grouped_df class is retained on row slice", {
+	skip_if_not_installed("dplyr")
+	expect_true(nc %>% group_by(PERIMETER > 2) %>% slice(1) %>% inherits("grouped_df"))
+})
+
 test_that("filter to sfc works", {
   skip_if_not_installed("dplyr")
   tbl = tibble(a = c("A", "B", "C"),
