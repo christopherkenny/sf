@@ -26,6 +26,10 @@ dplyr_reconstruct.sf = function(data, template) {
 	sfc_name = attr(template, "sf_column")
 	if (inherits(template, "tbl_df"))
 		data = dplyr::as_tibble(data)
+	if (inherits(template, "grouped_df"))
+		class(data) <- c("grouped_df", class(data))
+	if (inherits(template, "rowwise_df"))
+		class(data) <- c("rowwise_df", class(data))
 
 	# Return a bare data frame is the geometry column is no longer there
 	if (!sfc_name %in% names(data) || !inherits(data[[sfc_name]], "sfc"))
